@@ -14,8 +14,6 @@ export const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 800px;
-  min-height: 300px;
   overflow: hidden;
   border-radius: 4px;
 `;

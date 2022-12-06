@@ -32,10 +32,10 @@ class App extends Component {
   getImage = (query, page) => {
     this.setState({ isLoading: true });
     fetchImage(page, query)
-      .then(({ data: { hits } }) => {
+      .then(({ data: { hits, totalHits } }) => {
         this.setState(prevState => ({
           images: [...prevState.images, ...imageMapper(hits)],
-          showButton: true,
+          showButton: this.state.page < Math.ceil(totalHits / 12),
           isLoading: false,
         }));
       })
@@ -60,7 +60,8 @@ class App extends Component {
       <>
         <Searchbar onSubmit={this.searchQuery} />
         <Section>
-          {isLoading ? (
+          <ImageGallery images={images} openModal={this.openModal} />
+          {isLoading && (
             <Circles
               height="100"
               width="100"
@@ -75,9 +76,8 @@ class App extends Component {
               wrapperClass=""
               visible={true}
             />
-          ) : (
-            <ImageGallery images={images} openModal={this.openModal} />
           )}
+
           {showButton && (
             <Button text="Load more" clickHandler={this.handleButtonClick} />
           )}
